@@ -1,35 +1,20 @@
 # -*- coding: utf8 -*-
 # -*- language: ru_RU -*-
 
-
 class NetGraph(object):
     def __init__(self, productivity=5, accuracy=3):
 
-        self.works = [{'start': 0, 'end': 1, 'details': 100, 'workers': 2},
-                      {'start': 0, 'end': 2, 'details': 80, 'workers': 4},
-                      {'start': 0, 'end': 3, 'details': 150, 'workers': 2},
-                      {'start': 1, 'end': 2, 'details': 70,  'workers': 5},
-                      {'start': 1, 'end': 4, 'details': 95,  'workers': 5},
-                      {'start': 1, 'end': 5, 'details': 90,  'workers': 7},
-                      {'start': 2, 'end': 3, 'details': 100,  'workers': 3},
-                      {'start': 2, 'end': 6, 'details': 40,  'workers': 5},
-                      {'start': 3, 'end': 4, 'details': 160,  'workers': 4},
-                      {'start': 3, 'end': 5, 'details': 240,  'workers': 2},
-                      {'start': 4, 'end': 6, 'details': 70,  'workers': 6},
-                      {'start': 5, 'end': 6, 'details': 100,  'workers': 4}]
-        
-    
-        '''[{'start': 1, 'end': 2, 'details': 145, 'workers': 36},
-          {'start': 1, 'end': 3, 'details': 120, 'workers': 23},
-          {'start': 2, 'end': 3, 'details': 95,  'workers': 50},
-          {'start': 2, 'end': 4, 'details': 34,  'workers': 22},
-          {'start': 3, 'end': 4, 'details': 55,  'workers': 9},
-          {'start': 4, 'end': 5, 'details': 78,  'workers': 18},
-          {'start': 4, 'end': 8, 'details': 24,  'workers': 20},
-          {'start': 5, 'end': 6, 'details': 75,  'workers': 32},
-          {'start': 5, 'end': 7, 'details': 39,  'workers': 25},
-          {'start': 6, 'end': 7, 'details': 32,  'workers': 9},
-          {'start': 7, 'end': 8, 'details': 42,  'workers': 5}]'''
+        self.works =  [{'start': 1, 'end': 2, 'details': 145, 'workers': 36},
+                       {'start': 1, 'end': 3, 'details': 120, 'workers': 23},
+                       {'start': 2, 'end': 3, 'details': 95,  'workers': 50},
+                       {'start': 2, 'end': 4, 'details': 34,  'workers': 22},
+                       {'start': 3, 'end': 4, 'details': 55,  'workers': 9},
+                       {'start': 4, 'end': 5, 'details': 78,  'workers': 18},
+                       {'start': 4, 'end': 8, 'details': 24,  'workers': 20},
+                       {'start': 5, 'end': 6, 'details': 75,  'workers': 32},
+                       {'start': 5, 'end': 7, 'details': 39,  'workers': 25},
+                       {'start': 6, 'end': 7, 'details': 32,  'workers': 9},
+                       {'start': 7, 'end': 8, 'details': 42,  'workers': 5}]
 
         self.accuracy = accuracy
         self.productivity=productivity 
@@ -116,8 +101,7 @@ class NetGraph(object):
                 self.states[i]['soon_end'] = round(max_duration, self.accuracy)
             else:
                 self.states[i]['soon_end'] = 0
-    
-    
+       
     def calculate_late_end(self):
         for i in reversed(range(0, len(self.states))):
             min = self.crit_length

@@ -164,16 +164,28 @@
    </property>
    <widget class="QMenu" name="editMenu">
     <property name="title">
-     <string>Правка</string>
+     <string>Данные</string>
     </property>
+    <addaction name="editAction"/>
     <addaction name="applyChanges"/>
+    <addaction name="resultAction"/>
    </widget>
    <addaction name="editMenu"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="applyChanges">
    <property name="text">
-    <string>Применить изменения</string>
+    <string>Пересчитать</string>
+   </property>
+  </action>
+  <action name="editAction">
+   <property name="text">
+    <string>Изменить...</string>
+   </property>
+  </action>
+  <action name="resultAction">
+   <property name="text">
+    <string>Итоги...</string>
    </property>
   </action>
  </widget>
