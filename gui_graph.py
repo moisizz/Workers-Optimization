@@ -1,4 +1,5 @@
 # -*- coding: utf8 -*-
+# -*- language: ru_RU -*-
 
 import sys
 from PyQt4.QtCore import *
@@ -6,6 +7,7 @@ from PyQt4 import QtGui
 
 from form import Ui_MainWindow
 from edit_dialog import Ui_Edit_Dialog
+from result_dialog import Ui_Result_Dialog
 from graph import NetGraph
 
 class EditDialog(QtGui.QDialog):
@@ -24,6 +26,12 @@ class EditDialog(QtGui.QDialog):
         row = self.ui.dataTable.currentRow()
         self.ui.dataTable.removeRow(row)
 
+class ResultDialog(QtGui.QDialog):
+    def __init__(self, parent=None):
+        QtGui.QWidget.__init__(self, parent)
+        self.ui = Ui_Result_Dialog()
+        self.ui.setupUi(self)
+
 class GraphApplication(QtGui.QMainWindow):
     def __init__(self, parent=None):
         QtGui.QWidget.__init__(self, parent)
@@ -34,8 +42,10 @@ class GraphApplication(QtGui.QMainWindow):
         self.ui.statusbar.addPermanentWidget(self.ui.critLabel)
         
         self.edit_dialog = EditDialog(self)
+        self.result_dialog = ResultDialog(self)
         
         #Вызовы диалогов
+        self.connect(self.ui.resultAction, SIGNAL('activated()'), self.show_result_slot)
         self.connect(self.ui.editAction, SIGNAL('activated()'), self.data_edit_slot)
 
         #Принятие изменений
@@ -45,6 +55,8 @@ class GraphApplication(QtGui.QMainWindow):
         self.graph = NetGraph()
         self.init_data()
         
+        self.results = []
+        self.update_results()
 
     def init_data(self, previous_workers='', previous_details='', previous_crit_length=''):
         works = self.graph.get_works()
@@ -78,7 +90,110 @@ class GraphApplication(QtGui.QMainWindow):
             for key in states[i].keys():
                 item = QtGui.QTableWidgetItem('%s' % abs(states[i][key]))
                 self.ui.statesTable.setItem(i, table_columns[key], item)
+      
+    #Добавляет очередной шаг расчетов в таблицу результатов    
+    def update_results(self):      
+        works = self.graph.get_works()
+        workers = [] 
         
+        result ={}
+        
+        for work in works:
+            workers.append(work['workers'])
+            
+        result['workers'] = workers
+        result['crit_path'] = str(self.crit_path)
+        result['crit_length'] = self.crit_path_length
+        
+        self.results.append(result)
+        
+    #============================== Слоты =====================================    
+    def show_result_slot(self):
+        rd = self.result_dialog
+        
+        works = self.graph.get_works()
+        
+        result_text = u''
+        
+        result_text += u'Производительность = %s<br /><br />' % self.graph.productivity
+        result_text += u'Начальные данные:'
+        result_text += u'<table border="1" cellpadding="5" cellspacing="0">'
+        result_text += u'<tr><td>Начало</td>\
+                        <td>Конец</td>\
+                        <td>Деталей</td>\
+                        <td>Рабочих</td>\
+                        <td>Длительностьр работ</td>\
+                        </tr>'
+        for work in works:
+            result_text += u'<tr>'
+            result_text += u'<td>%s</td>' % work['start']
+            result_text += u'<td>%s</td>' % work['end']
+            result_text += u'<td>%s</td>' % work['details']
+            result_text += u'<td>%s</td>' % work['workers']
+            result_text += u'<td>%s</td>' % work['duration']
+            result_text += u'</tr>'
+        result_text += u'</table>'
+        
+        result_text += u'<br /><br />'
+                
+        result_text += u'Резервы работ:'
+        result_text += u'<table border="1" cellpadding="5" cellspacing="0">'
+        result_text += u'<tr><td>Работа</td>\
+                        <td>Резерв</td>\
+                        </tr>'
+        for work in works:
+            result_text += u'<tr>'
+            result_text += u'<td>%s-%s</td>' % (work['start'], work['end'])
+            result_text += u'<td>%s</td>' % work['full_reserv']
+            result_text += u'</tr>'                        
+        result_text += u'</table>'
+        
+        result_text += u'<br /><br />'
+        
+        result_text += u'Резервы событий:'
+        result_text += u'<table border="1" cellpadding="5" cellspacing="0">'       
+        result_text += u'<tr><td>Событие</td>\
+                        <td>Резерв</td>\
+                        </tr>'
+                        
+        states = self.graph.get_states()                        
+        for state in states:
+            result_text += u'<tr>'
+            result_text += u'<td>%s</td>' % state['num']
+            result_text += u'<td>%s</td>' % state['reserv']
+            result_text += u'</tr>'                         
+        result_text += u'</table>'      
+        
+        result_text += u'<br /><br />'
+        
+        result_text += u'Расчеты:'
+        result_text += u'<table border="1" cellpadding="5" cellspacing="0">'
+        result_text += u'<tr><td colspan="%s">Распределение рабочих по работам</td><td colspan="3">Параметры</td></tr>' % len(works)
+        result_text += u'<tr style="font-weight: bold">'
+        for work in works:
+            result_text += u'<td>%s-%s</td>' % (work['start'], work['end'])
+        result_text += u'<td>Всего рабочих</td>'
+        result_text += u'<td>Крит. путь</td>'
+        result_text += u'<td>Длина крит. пути</td>'
+        result_text += u'</tr>'     
+        for result in self.results:         
+            result_text += u'<tr>'
+            
+            workers_count = 0
+            for workers in result['workers']:
+                workers_count += workers
+                result_text += u'<td>%s</d>' % workers
+
+            result_text += u'<td>%s</td>' % workers_count
+            result_text += u'<td>%s</td>' % result['crit_path']
+            result_text += u'<td>%s</td>' % result['crit_length']
+
+            result_text += u'</tr>'
+        result_text += u'</table>'
+
+        rd.ui.resultText.setText(result_text)
+        rd.show()
+
     
     #Вызов окна редактирования количества рабочих, деталей и продуктивности
     def data_edit_slot(self):
