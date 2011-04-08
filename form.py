@@ -2,33 +2,39 @@
 
 # Form implementation generated from reading ui file 'form.ui'
 #
-# Created: Sat Mar 26 02:08:40 2011
-#      by: PyQt4 UI code generator 4.7.4
+# Created: Fri Apr  8 16:09:25 2011
+#      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt4 import QtCore, QtGui
 
+try:
+    _fromUtf8 = QtCore.QString.fromUtf8
+except AttributeError:
+    _fromUtf8 = lambda s: s
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
+        MainWindow.setObjectName(_fromUtf8("MainWindow"))
         MainWindow.resize(755, 480)
         self.centralWidget = QtGui.QWidget(MainWindow)
-        self.centralWidget.setObjectName("centralWidget")
+        self.centralWidget.setObjectName(_fromUtf8("centralWidget"))
         self.verticalLayoutWidget = QtGui.QWidget(self.centralWidget)
         self.verticalLayoutWidget.setGeometry(QtCore.QRect(9, 0, 741, 431))
-        self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
+        self.verticalLayoutWidget.setObjectName(_fromUtf8("verticalLayoutWidget"))
         self.mainLayout = QtGui.QVBoxLayout(self.verticalLayoutWidget)
-        self.mainLayout.setObjectName("mainLayout")
+        self.mainLayout.setMargin(0)
+        self.mainLayout.setObjectName(_fromUtf8("mainLayout"))
         self.workLabel = QtGui.QLabel(self.verticalLayoutWidget)
-        self.workLabel.setObjectName("workLabel")
+        self.workLabel.setObjectName(_fromUtf8("workLabel"))
         self.mainLayout.addWidget(self.workLabel)
         self.worksTable = QtGui.QTableWidget(self.verticalLayoutWidget)
         self.worksTable.setFrameShape(QtGui.QFrame.Box)
         self.worksTable.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAsNeeded)
-        self.worksTable.setProperty("showDropIndicator", True)
+        self.worksTable.setProperty(_fromUtf8("showDropIndicator"), True)
         self.worksTable.setGridStyle(QtCore.Qt.SolidLine)
-        self.worksTable.setObjectName("worksTable")
+        self.worksTable.setObjectName(_fromUtf8("worksTable"))
         self.worksTable.setColumnCount(6)
         self.worksTable.setRowCount(0)
         item = QtGui.QTableWidgetItem()
@@ -50,13 +56,13 @@ class Ui_MainWindow(object):
         self.worksTable.verticalHeader().setStretchLastSection(False)
         self.mainLayout.addWidget(self.worksTable)
         self.stateLabel = QtGui.QLabel(self.verticalLayoutWidget)
-        self.stateLabel.setObjectName("stateLabel")
+        self.stateLabel.setObjectName(_fromUtf8("stateLabel"))
         self.mainLayout.addWidget(self.stateLabel)
         self.statesTable = QtGui.QTableWidget(self.verticalLayoutWidget)
         self.statesTable.setFrameShape(QtGui.QFrame.Box)
         self.statesTable.setEditTriggers(QtGui.QAbstractItemView.NoEditTriggers)
         self.statesTable.setGridStyle(QtCore.Qt.SolidLine)
-        self.statesTable.setObjectName("statesTable")
+        self.statesTable.setObjectName(_fromUtf8("statesTable"))
         self.statesTable.setColumnCount(4)
         self.statesTable.setRowCount(0)
         item = QtGui.QTableWidgetItem()
@@ -75,16 +81,22 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralWidget)
         self.menubar = QtGui.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 755, 25))
-        self.menubar.setObjectName("menubar")
+        self.menubar.setObjectName(_fromUtf8("menubar"))
         self.editMenu = QtGui.QMenu(self.menubar)
-        self.editMenu.setObjectName("editMenu")
+        self.editMenu.setObjectName(_fromUtf8("editMenu"))
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtGui.QStatusBar(MainWindow)
-        self.statusbar.setObjectName("statusbar")
+        self.statusbar.setObjectName(_fromUtf8("statusbar"))
         MainWindow.setStatusBar(self.statusbar)
         self.applyChanges = QtGui.QAction(MainWindow)
-        self.applyChanges.setObjectName("applyChanges")
+        self.applyChanges.setObjectName(_fromUtf8("applyChanges"))
+        self.editAction = QtGui.QAction(MainWindow)
+        self.editAction.setObjectName(_fromUtf8("editAction"))
+        self.resultAction = QtGui.QAction(MainWindow)
+        self.resultAction.setObjectName(_fromUtf8("resultAction"))
+        self.editMenu.addAction(self.editAction)
         self.editMenu.addAction(self.applyChanges)
+        self.editMenu.addAction(self.resultAction)
         self.menubar.addAction(self.editMenu.menuAction())
 
         self.retranslateUi(MainWindow)
@@ -106,6 +118,8 @@ class Ui_MainWindow(object):
         self.statesTable.horizontalHeaderItem(1).setText(QtGui.QApplication.translate("MainWindow", "Раннее окончание", None, QtGui.QApplication.UnicodeUTF8))
         self.statesTable.horizontalHeaderItem(2).setText(QtGui.QApplication.translate("MainWindow", "Позднее окончание", None, QtGui.QApplication.UnicodeUTF8))
         self.statesTable.horizontalHeaderItem(3).setText(QtGui.QApplication.translate("MainWindow", "Резерв", None, QtGui.QApplication.UnicodeUTF8))
-        self.editMenu.setTitle(QtGui.QApplication.translate("MainWindow", "Правка", None, QtGui.QApplication.UnicodeUTF8))
-        self.applyChanges.setText(QtGui.QApplication.translate("MainWindow", "Применить изменения", None, QtGui.QApplication.UnicodeUTF8))
+        self.editMenu.setTitle(QtGui.QApplication.translate("MainWindow", "Данные", None, QtGui.QApplication.UnicodeUTF8))
+        self.applyChanges.setText(QtGui.QApplication.translate("MainWindow", "Пересчитать", None, QtGui.QApplication.UnicodeUTF8))
+        self.editAction.setText(QtGui.QApplication.translate("MainWindow", "Изменить...", None, QtGui.QApplication.UnicodeUTF8))
+        self.resultAction.setText(QtGui.QApplication.translate("MainWindow", "Итоги...", None, QtGui.QApplication.UnicodeUTF8))
 
